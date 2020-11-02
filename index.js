@@ -14,6 +14,7 @@ const app = express();
 
 //Set response
 function setResponse(username, data) {
+  data = JSON.parse(data);
   return `<p>User <strong>${username}</strong> has <strong>${data.public_repos}</strong> public repositories...</p>`;
 }
 
@@ -28,7 +29,7 @@ async function getPublicReposNumber(req, res, next) {
 
     //set to redis
     //redisClient.set(username, 3600, data);
-    redisClient.set("username", "data", redis.print);
+    redisClient.set(username, JSON.stringify(data), redis.print);
 
     res.status(200).send(setResponse(username, data));
   } catch (error) {
